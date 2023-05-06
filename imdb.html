@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <title>AngularJS Örnek | Film Ara</title>
+    </head>
+
+    <body>
+        <br>
+        <div class="container-fluid" ng-app="imdbUygulamasi" ng-controller="kontrol">
+            <div>
+                <div class="input-group search-bar">
+                    <input type="text" class="form-control" ng-model="arananFilm" ng-change="guncelle()" 
+                        placeholder="Aramak istediğiniz filmin tam ismini yazınız..."/>
+
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </span>
+                </div>
+
+                <hr>
+
+                <div>
+                    <div ng-if="sonuc.Response=='True'">
+                        <p>
+                            <a href="http://imdb.com/title/{{ sonuc.imdbID }}" target="_blank">
+                                {{ sonuc.Title }}
+                            </a>
+                        </p>
+                        <strong>IMDB Puanı : </strong>
+                        <span class="label label-info">{{ sonuc.imdbRating }}</span>
+                        <p>{{ sonuc.Released }}</p>
+                        <img class="img-thumbnail" width="150px" ng-src="{{ sonuc.Poster }}"/>
+                        <br><br>
+                        <p>{{ sonuc.Plot }}</p>
+                        <p class="label label-info">Yönetmen :</p> {{ sonuc.Director }}
+                        <br>
+                        <p class="label label-info">Oyuncular :</p> {{ sonuc.Actors }}
+                        <br>
+                        <p class="label label-info">Tür :</p> {{ sonuc.Genre }}
+                    </div>
+                </div>
+
+                <div ng-if="ilgiliSonuclar.Response!='False'">
+                    <br>
+                    <p>Arama ile ilgili diğer sonuçlar :</p>
+                    <ul>
+                        <li ng-repeat="film in ilgiliSonuclar.Search">
+                            <a href="#" id="{{ $index + 1 }}" ng-click="yenile(film)">
+                                {{ film.Title }}
+                            </a> - {{ film.Year }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
